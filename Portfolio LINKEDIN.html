@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mini site LinkedIn | Bilal BOUWALLEN</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--bg: #fff8ef;
+			--surface: rgba(255, 255, 255, 0.78);
+			--surface-strong: #ffffff;
+			--text: #152033;
+			--muted: #5f6778;
+			--line: rgba(21, 32, 51, 0.08);
+			--accent: #ff6b4a;
+			--accent-soft: #ffd7ce;
+			--secondary: #1f7cff;
+			--secondary-soft: #dce9ff;
+			--highlight: #18b7a6;
+			--shadow: 0 24px 60px rgba(34, 46, 79, 0.14);
+			--radius-xl: 28px;
+			--radius-lg: 22px;
+			--radius-md: 16px;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Manrope", sans-serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at top left, rgba(255, 107, 74, 0.30), transparent 30%),
+				radial-gradient(circle at top right, rgba(31, 124, 255, 0.25), transparent 28%),
+				linear-gradient(180deg, #fff8ef 0%, #fffdf8 44%, #eef6ff 100%);
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		.lang-en {
+			display: none;
+		}
+
+		body.show-en .lang-fr {
+			display: none;
+		}
+
+		body.show-en .lang-en {
+			display: initial;
+		}
+
+		.page-shell {
+			width: min(1180px, calc(100% - 32px));
+			margin: 0 auto;
+			padding: 28px 0 56px;
+		}
+
+		.topbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+			margin-bottom: 26px;
+		}
+
+		.brand {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			font-family: "Space Grotesk", sans-serif;
+			font-weight: 700;
+			letter-spacing: 0.02em;
+		}
+
+		.brand-mark {
+			width: 44px;
+			height: 44px;
+			display: grid;
+			place-items: center;
+			border-radius: 14px;
+			background: linear-gradient(135deg, var(--accent), #ff9f5b);
+			color: #fff;
+			box-shadow: 0 14px 26px rgba(255, 107, 74, 0.35);
+		}
+
+		.nav {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			gap: 10px;
+		}
+
+		.lang-switch {
+			display: inline-flex;
+			gap: 8px;
+		}
+
+		.lang-switch button {
+			min-height: 40px;
+			padding: 0 14px;
+			border-radius: 999px;
+			border: 1px solid rgba(21, 32, 51, 0.12);
+			background: rgba(255, 255, 255, 0.75);
+			font-weight: 800;
+			color: var(--muted);
+			cursor: pointer;
+		}
+
+		.lang-switch button.active {
+			color: #fff;
+			background: linear-gradient(135deg, var(--secondary), #00a6ff);
+			border-color: transparent;
+		}
+
+		.nav a {
+			padding: 11px 16px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.62);
+			border: 1px solid rgba(255, 255, 255, 0.7);
+			color: var(--muted);
+			backdrop-filter: blur(14px);
+		}
+
+		.hero {
+			position: relative;
+			overflow: hidden;
+			display: grid;
+			grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
+			gap: 24px;
+			padding: 34px;
+			border-radius: 36px;
+			background: linear-gradient(145deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.68));
+			border: 1px solid rgba(255, 255, 255, 0.85);
+			box-shadow: var(--shadow);
+			backdrop-filter: blur(16px);
+		}
+
+		.hero::after {
+			content: "";
+			position: absolute;
+			inset: auto -70px -80px auto;
+			width: 240px;
+			height: 240px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(24, 183, 166, 0.35), transparent 68%);
+		}
+
+		.eyebrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			padding: 10px 16px;
+			border-radius: 999px;
+			background: rgba(255, 215, 206, 0.72);
+			color: #b13e26;
+			font-weight: 700;
+			font-size: 0.92rem;
+			margin-bottom: 20px;
+		}
+
+		h1,
+		h2,
+		h3 {
+			margin: 0;
+		}
+
+		h1 {
+			font-family: "Space Grotesk", sans-serif;
+			font-size: clamp(2.5rem, 4vw, 4.5rem);
+			line-height: 0.98;
+			letter-spacing: -0.04em;
+			max-width: 9ch;
+		}
+
+		.hero p {
+			margin: 18px 0 0;
+			max-width: 60ch;
+			color: var(--muted);
+			font-size: 1.05rem;
+			line-height: 1.7;
+		}
+
+		.hero-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 14px;
+			margin-top: 28px;
+		}
+
+		.button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			min-height: 52px;
+			padding: 0 20px;
+			border-radius: 16px;
+			font-weight: 800;
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		.button:hover {
+			transform: translateY(-2px);
+		}
+
+		.button.primary {
+			color: #fff;
+			background: linear-gradient(135deg, var(--secondary), #00a6ff);
+			box-shadow: 0 16px 30px rgba(31, 124, 255, 0.26);
+		}
+
+		.button.secondary {
+			background: rgba(255, 255, 255, 0.78);
+			border: 1px solid var(--line);
+		}
+
+		.hero-panel {
+			display: grid;
+			gap: 16px;
+			align-content: start;
+		}
+
+		.card {
+			position: relative;
+			padding: 24px;
+			border-radius: var(--radius-xl);
+			background: var(--surface);
+			border: 1px solid rgba(255, 255, 255, 0.8);
+			box-shadow: var(--shadow);
+			backdrop-filter: blur(14px);
+		}
+
+		.profile-card {
+			background:
+				linear-gradient(155deg, rgba(31, 124, 255, 0.11), rgba(255, 255, 255, 0.92)),
+				var(--surface);
+		}
+
+		.avatar {
+			width: 76px;
+			height: 76px;
+			border-radius: 24px;
+			display: grid;
+			place-items: center;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: 1.6rem;
+			font-weight: 700;
+			color: #fff;
+			background: linear-gradient(135deg, var(--accent), #ff8b64);
+			box-shadow: 0 16px 28px rgba(255, 107, 74, 0.32);
+		}
+
+		.profile-meta {
+			margin-top: 18px;
+		}
+
+		.profile-meta strong {
+			display: block;
+			font-size: 1.2rem;
+			margin-bottom: 6px;
+		}
+
+		.pill-row,
+		.stats,
+		.qualities,
+		.skills-grid,
+		.contact-links {
+			display: grid;
+			gap: 16px;
+		}
+
+		.pill-row {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			margin-top: 18px;
+		}
+
+		.pill {
+			padding: 14px 16px;
+			border-radius: 18px;
+			background: #fff;
+			border: 1px solid rgba(21, 32, 51, 0.06);
+		}
+
+		.pill span {
+			display: block;
+			color: var(--muted);
+			font-size: 0.9rem;
+			margin-bottom: 6px;
+		}
+
+		.pill strong {
+			font-size: 1rem;
+		}
+
+		.section-grid {
+			display: grid;
+			grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+			gap: 24px;
+			margin-top: 24px;
+		}
+
+		.section-title {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 14px;
+			margin-bottom: 18px;
+		}
+
+		.section-title h2 {
+			font-family: "Space Grotesk", sans-serif;
+			font-size: 1.55rem;
+			letter-spacing: -0.03em;
+		}
+
+		.section-title p {
+			margin: 0;
+			color: var(--muted);
+		}
+
+		.about-copy {
+			color: var(--muted);
+			line-height: 1.8;
+			font-size: 1.02rem;
+		}
+
+		.stats {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			margin-top: 22px;
+		}
+
+		.stat {
+			padding: 18px;
+			border-radius: 20px;
+			background: linear-gradient(180deg, #ffffff, rgba(255, 255, 255, 0.72));
+			border: 1px solid rgba(21, 32, 51, 0.05);
+		}
+
+		.stat strong {
+			display: block;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: 1.85rem;
+			margin-bottom: 4px;
+		}
+
+		.stat span {
+			color: var(--muted);
+			font-size: 0.95rem;
+		}
+
+		.qualities {
+			margin-top: 20px;
+		}
+
+		.quality-item {
+			display: flex;
+			gap: 16px;
+			align-items: flex-start;
+			padding: 18px;
+			border-radius: 20px;
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.72));
+			border: 1px solid rgba(21, 32, 51, 0.05);
+		}
+
+		.quality-icon {
+			width: 42px;
+			height: 42px;
+			flex: 0 0 42px;
+			display: grid;
+			place-items: center;
+			border-radius: 14px;
+			font-weight: 800;
+			color: #fff;
+			background: linear-gradient(135deg, var(--highlight), #1fd7c1);
+		}
+
+		.quality-item p,
+		.skill-card p,
+		.contact-card p,
+		footer p {
+			margin: 6px 0 0;
+			color: var(--muted);
+			line-height: 1.7;
+		}
+
+		.skills-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			margin-top: 20px;
+		}
+
+		.skill-card {
+			padding: 22px;
+			border-radius: 22px;
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.76));
+			border: 1px solid rgba(21, 32, 51, 0.06);
+		}
+
+		.skill-tag {
+			display: inline-flex;
+			align-items: center;
+			padding: 7px 11px;
+			border-radius: 999px;
+			font-size: 0.78rem;
+			font-weight: 800;
+			letter-spacing: 0.03em;
+			text-transform: uppercase;
+			margin-bottom: 14px;
+			background: var(--secondary-soft);
+			color: #2454a8;
+		}
+
+		.meter {
+			margin-top: 16px;
+		}
+
+		.meter-label {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-size: 0.92rem;
+			margin-bottom: 8px;
+			color: var(--muted);
+		}
+
+		.meter-track {
+			height: 10px;
+			border-radius: 999px;
+			background: #edf1f8;
+			overflow: hidden;
+		}
+
+		.meter-fill {
+			height: 100%;
+			border-radius: inherit;
+			background: linear-gradient(90deg, var(--accent), var(--secondary));
+		}
+
+		.contact-card {
+			margin-top: 24px;
+			padding: 28px;
+			border-radius: 32px;
+			background: linear-gradient(135deg, #152033, #1f3559);
+			color: #fff;
+			box-shadow: 0 24px 52px rgba(21, 32, 51, 0.26);
+		}
+
+		.contact-card p {
+			color: rgba(255, 255, 255, 0.76);
+		}
+
+		.contact-links {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			margin-top: 22px;
+		}
+
+		.contact-link {
+			padding: 16px 18px;
+			border-radius: 20px;
+			background: rgba(255, 255, 255, 0.08);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		.contact-link span {
+			display: block;
+			font-size: 0.82rem;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.58);
+			margin-bottom: 6px;
+		}
+
+		footer {
+			padding: 20px 4px 0;
+			text-align: center;
+		}
+
+		@media (max-width: 980px) {
+			.hero,
+			.section-grid,
+			.skills-grid,
+			.contact-links {
+				grid-template-columns: 1fr;
+			}
+
+			.stats,
+			.pill-row {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+		}
+
+		@media (max-width: 680px) {
+			.page-shell {
+				width: min(100% - 18px, 1180px);
+				padding-top: 18px;
+			}
+
+			.topbar {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.hero,
+			.card,
+			.contact-card {
+				padding: 22px;
+				border-radius: 24px;
+			}
+
+			.stats,
+			.pill-row {
+				grid-template-columns: 1fr;
+			}
+
+			.nav {
+				justify-content: flex-start;
+			}
+
+			h1 {
+				max-width: 100%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="page-shell">
+		<header class="topbar">
+			<div class="brand">
+				<div class="brand-mark">BB</div>
+				<div>
+					<div>Bilal BOUWALLEN</div>
+					<small>Mini site professionnel LinkedIn</small>
+				</div>
+			</div>
+			<nav class="nav">
+				<a href="#a-propos"><span class="lang-fr">A propos</span><span class="lang-en">About</span></a>
+				<a href="#qualites"><span class="lang-fr">Qualites</span><span class="lang-en">Strengths</span></a>
+				<a href="#projets"><span class="lang-fr">Projets</span><span class="lang-en">Projects</span></a>
+				<a href="#competences"><span class="lang-fr">Competences</span><span class="lang-en">Skills</span></a>
+				<a href="#contact">Contact</a>
+			</nav>
+			<div class="lang-switch" aria-label="Language switch">
+				<button id="btn-fr" class="active" type="button">FR</button>
+				<button id="btn-en" type="button">EN</button>
+			</div>
+		</header>
+
+		<section class="hero">
+			<div>
+				<div class="eyebrow"><span class="lang-fr">Profil informatique | Disponible pour opportunites tech</span><span class="lang-en">IT profile | Open to tech opportunities</span></div>
+				<h1><span class="lang-fr">Je construis des solutions claires, utiles et modernes.</span><span class="lang-en">I build clear, useful and modern solutions.</span></h1>
+				<p class="lang-fr">
+					Je m'appelle <strong>Bilal BOUWALLEN</strong>, passionne par l'informatique et la resolution de problemes.
+					Ce mini site presente mes points forts pour LinkedIn : des competences techniques utiles et des qualites solides en environnement professionnel.
+				</p>
+				<p class="lang-en">
+					My name is <strong>Bilal BOUWALLEN</strong>. I am passionate about IT and problem solving.
+					This mini site highlights my LinkedIn profile with practical technical skills and strong professional qualities.
+				</p>
+				<div class="hero-actions">
+					<a class="button primary" href="#contact"><span class="lang-fr">Me contacter</span><span class="lang-en">Contact me</span></a>
+					<a class="button secondary" href="#competences"><span class="lang-fr">Voir mes competences</span><span class="lang-en">View my skills</span></a>
+					<a class="button secondary" href="https://www.linkedin.com/in/bilal-bouwallen/" target="_blank" rel="noreferrer">LinkedIn Direct</a>
+				</div>
+			</div>
+
+			<div class="hero-panel">
+				<article class="card profile-card">
+					<div class="avatar">BB</div>
+					<div class="profile-meta">
+						<strong>Bilal BOUWALLEN | Profil junior informatique</strong>
+						<div>HTML, CSS, PowerShell et notions reseau TCP/IP</div>
+					</div>
+					<div class="pill-row">
+						<div class="pill">
+							<span>Objectif</span>
+							<strong>Contribuer a des projets concrets</strong>
+						</div>
+						<div class="pill">
+							<span>Force</span>
+							<strong>Utilisation en profondeur de l'IA</strong>
+						</div>
+					</div>
+				</article>
+
+				<article class="card">
+					<div class="section-title">
+						<h2>Atouts cles</h2>
+					</div>
+					<div class="qualities">
+						<div class="quality-item">
+							<div class="quality-icon">01</div>
+							<div>
+								<strong>Sens de l'organisation</strong>
+								<p>Je planifie les taches avec methode pour avancer de facon claire et efficace.</p>
+							</div>
+						</div>
+						<div class="quality-item">
+							<div class="quality-icon">02</div>
+							<div>
+								<strong>Esprit collaboratif</strong>
+								<p>J'aime travailler en equipe, partager les idees et contribuer a des objectifs communs.</p>
+							</div>
+						</div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<div class="section-grid" id="a-propos">
+			<section class="card">
+				<div class="section-title">
+					<h2>Presentation</h2>
+					<p>Une image serieuse, accessible et actuelle</p>
+				</div>
+				<div class="about-copy">
+					Je souhaite evoluer dans le domaine informatique en mettant en avant mon sens de l'organisation, mon esprit d'analyse et ma capacite a collaborer.
+					Je m'interesse a la fois a la technique et a la qualite du rendu final, avec une approche serieuse et orientee resultats.
+					<br><br>
+					Mon objectif est de developper mes competences sur des missions reelles, en utilisant aussi l'IA de maniere approfondie
+					pour apprendre plus vite, optimiser le travail et produire des solutions efficaces.
+				</div>
+				<div class="stats">
+					<div class="stat">
+						<strong>3+</strong>
+						<span>domaines techniques explores</span>
+					</div>
+					<div class="stat">
+						<strong>100%</strong>
+						<span>implication sur les projets</span>
+					</div>
+					<div class="stat">
+						<strong>Pro</strong>
+						<span>presentation soignee et claire</span>
+					</div>
+				</div>
+			</section>
+
+			<section class="card" id="qualites">
+				<div class="section-title">
+					<h2>Mes qualites</h2>
+					<p>Ce que j'apporte dans un cadre de travail</p>
+				</div>
+				<div class="qualities">
+					<div class="quality-item">
+						<div class="quality-icon">A</div>
+						<div>
+							<strong>Sens de l'organisation</strong>
+							<p>Je structure mon travail pour respecter les priorites, les objectifs et les delais.</p>
+						</div>
+					</div>
+					<div class="quality-item">
+						<div class="quality-icon">B</div>
+						<div>
+							<strong>Esprit collaboratif</strong>
+							<p>Je communique facilement avec les autres et je contribue positivement au travail d'equipe.</p>
+						</div>
+					</div>
+					<div class="quality-item">
+						<div class="quality-icon">C</div>
+						<div>
+							<strong>Ponctualite</strong>
+							<p>Je suis fiable dans les horaires et les engagements pris sur les taches a livrer.</p>
+						</div>
+					</div>
+					<div class="quality-item">
+						<div class="quality-icon">D</div>
+						<div>
+							<strong>Esprit d'analyse</strong>
+							<p>Je sais observer, decomposer un probleme et proposer une solution adaptee.</p>
+						</div>
+					</div>
+					<div class="quality-item">
+						<div class="quality-icon">E</div>
+						<div>
+							<strong>Utilisation en profondeur de l'IA</strong>
+							<p>J'utilise l'IA comme levier pour apprendre, accelerer la production et ameliorer la qualite.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<section class="card" id="projets" style="margin-top: 24px;">
+			<div class="section-title">
+				<h2><span class="lang-fr">Projets et objectifs</span><span class="lang-en">Projects and goals</span></h2>
+				<p><span class="lang-fr">Trajectoire professionnelle</span><span class="lang-en">Professional roadmap</span></p>
+			</div>
+			<div class="qualities">
+				<div class="quality-item">
+					<div class="quality-icon">P1</div>
+					<div>
+						<strong><span class="lang-fr">Objectif principal: Administrateur reseau</span><span class="lang-en">Primary goal: Network Administrator</span></strong>
+						<p><span class="lang-fr">Mon objectif premier est de devenir administrateur reseau, en consolidant mes competences techniques sur les infrastructures, la supervision et le support.</span><span class="lang-en">My first objective is to become a Network Administrator by strengthening my technical skills in infrastructure, monitoring and support.</span></p>
+					</div>
+				</div>
+				<div class="quality-item">
+					<div class="quality-icon">P2</div>
+					<div>
+						<strong><span class="lang-fr">Objectif futur: Chef de projet</span><span class="lang-en">Future goal: Project Manager</span></strong>
+						<p><span class="lang-fr">A plus long terme, je souhaiterais evoluer vers un poste de chef de projet pour piloter des projets IT, coordonner les equipes et assurer la qualite des livrables.</span><span class="lang-en">In the long term, I want to grow into a Project Manager role to lead IT projects, coordinate teams and ensure delivery quality.</span></p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="card" id="competences" style="margin-top: 24px;">
+			<div class="section-title">
+				<h2><span class="lang-fr">Competences informatiques</span><span class="lang-en">IT skills</span></h2>
+				<p><span class="lang-fr">Mes connaissances techniques principales</span><span class="lang-en">My core technical knowledge</span></p>
+			</div>
+			<div class="skills-grid">
+				<article class="skill-card">
+					<div class="skill-tag">Developpement web</div>
+					<h3>HTML & CSS</h3>
+					<p>Creation de pages web claires, responsive et professionnelles pour le web.</p>
+					<div class="meter">
+						<div class="meter-label"><span>Integration front-end</span><strong>40%</strong></div>
+						<div class="meter-track"><div class="meter-fill" style="width: 40%;"></div></div>
+					</div>
+				</article>
+
+				<article class="skill-card">
+					<div class="skill-tag" style="background: var(--accent-soft); color: #aa472f;">Scripting</div>
+					<h3>PowerShell</h3>
+					<p>Automatisation de taches, execution de scripts et gestion de commandes systeme.</p>
+					<div class="meter">
+						<div class="meter-label"><span>Scripts et administration</span><strong>30%</strong></div>
+						<div class="meter-track"><div class="meter-fill" style="width: 30%;"></div></div>
+					</div>
+				</article>
+
+				<article class="skill-card">
+					<div class="skill-tag" style="background: #daf7f2; color: #19796d;">Systemes</div>
+					<h3>Reseau TCP/IP</h3>
+					<p>Connaissances des bases reseau : adressage, communication entre machines et diagnostic.</p>
+					<div class="meter">
+						<div class="meter-label"><span>Fondamentaux reseau</span><strong>40%</strong></div>
+						<div class="meter-track"><div class="meter-fill" style="width: 40%;"></div></div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="contact-card" id="contact">
+			<div class="section-title">
+				<h2><span class="lang-fr">Restons en contact</span><span class="lang-en">Let's connect</span></h2>
+				<p><span class="lang-fr">Mini site de presentation de Bilal BOUWALLEN pour LinkedIn</span><span class="lang-en">Bilal BOUWALLEN mini site for LinkedIn</span></p>
+			</div>
+			<p class="lang-fr">
+				Cette page est pensee pour donner une image professionnelle, claire et coloree sur LinkedIn.
+				Elle me permet de presenter rapidement mes qualites et mes connaissances informatiques.
+			</p>
+			<p class="lang-en">
+				This page is designed to provide a professional, clear and colorful presence on LinkedIn.
+				It allows me to quickly present my strengths and IT knowledge.
+			</p>
+			<div class="contact-links">
+				<a class="contact-link" href="https://www.linkedin.com/in/bilal-bouwallen/" target="_blank" rel="noreferrer">
+					<span>LinkedIn</span>
+					Profil Bilal BOUWALLEN - Acces direct
+				</a>
+				<div class="contact-link">
+					<span>Nom</span>
+					Bilal BOUWALLEN
+				</div>
+				<div class="contact-link">
+					<span>Profil</span>
+					Informatique | HTML, CSS, PowerShell, TCP/IP
+				</div>
+			</div>
+		</section>
+
+		<footer>
+			<p>Mini site LinkedIn de Bilal BOUWALLEN - design colore, professionnel et adapte au partage en ligne.</p>
+		</footer>
+	</div>
+	<script>
+		const btnFr = document.getElementById("btn-fr");
+		const btnEn = document.getElementById("btn-en");
+
+		btnFr.addEventListener("click", () => {
+			document.body.classList.remove("show-en");
+			btnFr.classList.add("active");
+			btnEn.classList.remove("active");
+			document.documentElement.lang = "fr";
+		});
+
+		btnEn.addEventListener("click", () => {
+			document.body.classList.add("show-en");
+			btnEn.classList.add("active");
+			btnFr.classList.remove("active");
+			document.documentElement.lang = "en";
+		});
+	</script>
+</body>
+</html>
